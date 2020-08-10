@@ -1,23 +1,20 @@
 import { Component, OnInit, ElementRef, ViewChild, TemplateRef } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { AddItem, RemoveItem } from './store/items.actions';
+import { AddItem, RemoveItem } from '../store/items.actions';
 import { Observable } from 'rxjs';
 // import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 // import { MDBModalRef } from 'ngx-bootstrap/modal';
 
-import { ItemsState, ItemsStateModel } from './store/items.state';
-// import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ItemsState, ItemsStateModel } from '../store/items.state';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  // providers: [FormBuilder]
+  selector: 'app-ngxs-test',
+  templateUrl: './ngxs-test.component.html',
+  styleUrls: ['./ngxs-test.component.css']
 })
 
-
-export class AppComponent implements OnInit {
+export class NgxsTestComponent implements OnInit {
   // @Select(ItemsState.items) items$: Observable<ItemsStateModel[]>;
 
   @ViewChild('itemInput') itemInput: ElementRef;
@@ -28,23 +25,13 @@ export class AppComponent implements OnInit {
 
   items$: Observable<ItemsStateModel[]>;
   items: ItemsStateModel[] = []
-  // cardForm: FormGroup;
 
   constructor(
     private store: Store,
-    // private fb: FormBuilder
     // private modalService: BsModalService
   ) {
     this.items$ = this.store.select(state => state.items.items);
-    // this.cardForm = fb.group({
-    //   materialFormCardNameEx: ['', Validators.required],
-    //   materialFormCardEmailEx: ['', [Validators.email, Validators.required]],
-    //   materialFormCardConfirmEx: ['', Validators.required],
-    //   materialFormCardPasswordEx: ['', Validators.required]
-    // });
   }
-
-
 
   ngOnInit(): void {
     this.items$.subscribe(item => {

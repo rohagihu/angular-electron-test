@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 
 /electron-test-win32-x64
+/electron-test-darwin-x64

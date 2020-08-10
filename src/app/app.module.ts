@@ -2,27 +2,31 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-
-import { ModalModule } from 'ngx-bootstrap/modal';
-
-import { ItemsState } from './store/items.state';
-
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
+import { ItemsState } from './store/items.state';
+
+import { RegistryModule } from './registry/registry.module';
+import { NgxsTestComponent } from './ngxs-test/ngxs-test.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NgxsTestComponent
   ],
   imports: [
     BrowserModule,
     NgxsModule.forRoot([ItemsState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     BrowserAnimationsModule,
-    ModalModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    RegistryModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
