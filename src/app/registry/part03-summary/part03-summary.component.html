@@ -1,0 +1,42 @@
+<h1 class="text-center">Zusammenfassung der Einstellungen</h1>
+
+<div class="d-flex p-3">
+  <div
+    class="flex-fill p-4"
+    *ngFor="let group of ['A','B','C']; let iGroup = index"
+  >
+    <h4>Gruppe {{group}}</h4>
+    <ul class="list-group list-group-flush text-dark">
+      <li
+        class="list-group-item"
+        *ngFor="let team of teams | slice:iGroup*5:(iGroup*5)+5; let i = index"
+      >
+        <mdb-badge pill="true" [color]="preliminaryRound.colors[i]">{{group+(i+1)}}</mdb-badge> <span class="ml-2">{{team.name}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-primary w-75" role="alert" style="margin-left: auto; margin-right: auto;">
+  Spielmodus (Vorrunde):
+  {{preliminaryRound.modeLabel[preliminaryRound.mode]}},
+  Spielsätze: {{preliminaryRound.sets}},
+  {{preliminaryRound.mode === 'byTime' ?
+    'Spieldauer: ' + preliminaryRound.duration :
+    'Satzlimit: ' + preliminaryRound.setLimit + (
+      preliminaryRound.activeTwoPointsDifference ? ', mit 2 Punkten Unterschied' : ', ohne 2 Punkten Unterschied'
+      )
+  }}
+
+</div>
+
+<div class="text-center">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="stepBack()">
+    <mdb-icon fas icon="chevron-circle-left" class="mr-1"></mdb-icon>
+    Zurück
+  </button>
+  <button type="button" mdbBtn color="success" mdbWavesEffect (click)="next()">
+    Speichern & Starten
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>

@@ -1,27 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registry',
   templateUrl: './registry.component.html',
   styleUrls: ['./registry.component.css'],
-  providers: [FormBuilder]
+  providers: []
 })
 export class RegistryComponent implements OnInit {
 
-  cardForm: FormGroup;
+  registrySteps = {
+    part1: true,
+    part2: false,
+    part3: false
+  }
 
-    constructor(private fb: FormBuilder) {
-    this.cardForm = fb.group({
-      materialFormCardNameEx: ['', Validators.required],
-      materialFormCardEmailEx: ['', [Validators.email, Validators.required]],
-      materialFormCardConfirmEx: ['', Validators.required],
-      materialFormCardPasswordEx: ['', Validators.required]
-    });
+  constructor(
+  ) {
 
   }
 
   ngOnInit(): void {
   }
+
+  next(currentPart) {
+    this.registrySteps['part'+currentPart] = false;
+    this.registrySteps['part'+(currentPart+1)] = true;
+  }
+
+  before(currentPart) {
+    this.registrySteps['part'+currentPart] = false;
+    this.registrySteps['part'+(currentPart-1)] = true;
+  }
+
+  finish(foo) {}
 
 }

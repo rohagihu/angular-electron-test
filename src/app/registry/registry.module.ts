@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegistryComponent } from './registry.component';
-import { IconsModule } from 'angular-bootstrap-md'
-import { ButtonsModule, WavesModule, CardsModule } from 'angular-bootstrap-md'
 
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { SharedModule } from '../shared/shared.module';
+import { Part01TeamsComponent } from './part01-teams/part01-teams.component';
+import { Part02RulesComponent } from './part02-rules/part02-rules.component';
+import { Part03SummaryComponent } from './part03-summary/part03-summary.component';
 
 @NgModule({
-  declarations: [RegistryComponent],
+  declarations: [RegistryComponent, Part01TeamsComponent, Part02RulesComponent, Part03SummaryComponent],
   imports: [
     CommonModule,
-    MDBBootstrapModule.forRoot()
+    SharedModule
   ],
   exports: [RegistryComponent]
 })

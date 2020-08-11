@@ -36,12 +36,6 @@ export class AppComponent implements OnInit {
     // private modalService: BsModalService
   ) {
     this.items$ = this.store.select(state => state.items.items);
-    // this.cardForm = fb.group({
-    //   materialFormCardNameEx: ['', Validators.required],
-    //   materialFormCardEmailEx: ['', [Validators.email, Validators.required]],
-    //   materialFormCardConfirmEx: ['', Validators.required],
-    //   materialFormCardPasswordEx: ['', Validators.required]
-    // });
   }
 
 
@@ -65,7 +59,6 @@ export class AppComponent implements OnInit {
 
 
   openModal(i: number): void {
-    // this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     console.log('a')
     this.modal.show();
     this.modalOpenedIndex = i;
@@ -75,13 +68,11 @@ export class AppComponent implements OnInit {
     this.removeItem(this.modalOpenedIndex);
     this.modalOpenedIndex = null;
     this.modal.hide();
-    // this.modalRef.hide();
   }
 
   decline(): void {
     this.modalOpenedIndex = null;
     this.modal.hide();
-    // this.modalRef.hide();
   }
 
 
