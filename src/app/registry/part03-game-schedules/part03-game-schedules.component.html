@@ -1,0 +1,28 @@
+<h1 class="text-center">Spielplan Vorrunde</h1>
+
+<ul class="list-group list-group-flush text-dark p-3 w-25 text-center" style="margin: 0 auto;">
+  <li
+    class="list-group-item"
+    *ngFor="let game of schedule; let i = index"
+  >
+    <mdb-badge pill="true" [color]="preliminaryRound.colors[game.teamA]">Team {{game.teamA}}</mdb-badge> -
+    <mdb-badge pill="true" [color]="preliminaryRound.colors[game.teamB]">Team {{game.teamB}}</mdb-badge>
+    <div class="w-25"></div>
+    <div class="w-25"></div>
+  </li>
+</ul>
+
+<div class="text-center">
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="stepBack()">
+    <mdb-icon fas icon="chevron-circle-left" class="mr-1"></mdb-icon>
+    Zurück
+  </button>
+  <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="shuffle()">
+    Neu würfeln
+    <mdb-icon fas icon="dice" class="ml-1"></mdb-icon>
+  </button>
+  <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="next()">
+    Weiter
+    <mdb-icon fas icon="chevron-circle-right" class="ml-1"></mdb-icon>
+  </button>
+</div>

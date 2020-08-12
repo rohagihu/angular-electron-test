@@ -1,3 +1,4 @@
 <app-part01-teams *ngIf="registrySteps.part1" (done)="next($event)"></app-part01-teams>
 <app-part02-rules *ngIf="registrySteps.part2" (done)="next($event)" (undo)="before($event)"></app-part02-rules>
-<app-part03-summary *ngIf="registrySteps.part3" (done)="finish($event)" (undo)="before($event)"></app-part03-summary>
+<app-part03-game-schedules *ngIf="registrySteps.part3" (done)="next($event)" (undo)="before($event)"></app-part03-game-schedules>
+<app-part04-summary *ngIf="registrySteps.part4" (done)="finish($event)" (undo)="before($event)"></app-part04-summary>

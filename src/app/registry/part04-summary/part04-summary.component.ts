@@ -2,11 +2,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../../core/data.service';
 
 @Component({
-  selector: 'app-part03-summary',
-  templateUrl: './part03-summary.component.html',
-  styleUrls: ['./part03-summary.component.css']
+  selector: 'app-part04-summary',
+  templateUrl: './part04-summary.component.html',
+  styleUrls: ['./part04-summary.component.css']
 })
-export class Part03SummaryComponent implements OnInit {
+export class Part04SummaryComponent implements OnInit {
 
   teams = [];
   preliminaryRound: any = {};
@@ -22,11 +22,11 @@ export class Part03SummaryComponent implements OnInit {
   }
 
   stepBack() {
-    this.undo.emit(3)
+    this.undo.emit(4);
   }
   next() {
     this.dataService.savePreliminaryConfig(this.preliminaryRound);
-    this.done.emit(2)
+    // this.done.emit(2);
   }
 
 }

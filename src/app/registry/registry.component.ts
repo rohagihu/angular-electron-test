@@ -9,27 +9,25 @@ import { Component, OnInit } from '@angular/core';
 export class RegistryComponent implements OnInit {
 
   registrySteps = {
-    part1: true,
+    part1: false,
     part2: false,
-    part3: false
-  }
+    part3: true,
+    part4: false
+  };
 
-  constructor(
-  ) {
-
-  }
+  constructor() {}
 
   ngOnInit(): void {
   }
 
   next(currentPart) {
-    this.registrySteps['part'+currentPart] = false;
-    this.registrySteps['part'+(currentPart+1)] = true;
+    this.registrySteps['part' + currentPart] = false;
+    this.registrySteps['part' + (currentPart + 1)] = true;
   }
 
   before(currentPart) {
-    this.registrySteps['part'+currentPart] = false;
-    this.registrySteps['part'+(currentPart-1)] = true;
+    this.registrySteps['part' + currentPart] = false;
+    this.registrySteps['part' + (currentPart - 1)] = true;
   }
 
   finish(foo) {}

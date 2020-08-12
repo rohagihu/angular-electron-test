@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Part03SummaryComponent } from './part03-summary.component';
+import { Part3GameSchedulesComponent } from './part03-game-schedules.component';
 
-describe('Part03SummaryComponent', () => {
-  let component: Part03SummaryComponent;
-  let fixture: ComponentFixture<Part03SummaryComponent>;
+describe('Part3GameSchedulesComponent', () => {
+  let component: Part3GameSchedulesComponent;
+  let fixture: ComponentFixture<Part3GameSchedulesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Part03SummaryComponent ]
+      declarations: [ Part3GameSchedulesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(Part03SummaryComponent);
+    fixture = TestBed.createComponent(Part3GameSchedulesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

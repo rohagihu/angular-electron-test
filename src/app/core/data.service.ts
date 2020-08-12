@@ -7,7 +7,7 @@ export class DataService {
 
   teamsAmount = 15;
   teamsGroups = 3;
-  teams = []
+  teams = [];
 
   preliminaryRound = {
     mode: 'byPoints',
@@ -19,8 +19,10 @@ export class DataService {
     setLimit: 15,
     duration: '12min',
     activeTwoPointsDifference: false,
-    colors: ['red', 'cyan lighten-1', 'amber darken-2', 'green darken-3', 'indigo']
-  }
+    colors: ['red', 'cyan lighten-1', 'amber darken-2', 'green darken-3', 'indigo'],
+    schedule: []
+  };
+
 
 
   constructor() { }
@@ -48,5 +50,9 @@ export class DataService {
 
   savePreliminaryConfig(config) {
     this.preliminaryRound = config;
+  }
+
+  savePreliminarySchedule(schedule) {
+    this.preliminaryRound.schedule = schedule;
   }
 }

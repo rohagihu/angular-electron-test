@@ -22,17 +22,17 @@ export class Part01TeamsComponent implements OnInit {
   }
 
   shuffle() {
-    for(let i = this.teams.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i)
-      const temp = this.teams[i]
-      this.teams[i] = this.teams[j]
-      this.teams[j] = temp
+    for (let i = this.teams.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * i);
+      const temp = this.teams[i];
+      this.teams[i] = this.teams[j];
+      this.teams[j] = temp;
     }
   }
 
   next() {
     this.dataService.saveTeams(this.teams);
-    this.done.emit(1)
+    this.done.emit(1);
   }
 
 }
