@@ -13,7 +13,7 @@
       style="cursor: move"
     >
 
-      {{i}}
+      {{i+1 | number:'2.0'}}
 
     </li>
   </ul>
@@ -33,10 +33,10 @@
 
       <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamA]">
         <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
-        Team {{game.teamA}}
+        Team {{game.teamA +1}}
       </mdb-badge> -
       <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamB]">
-        Team {{game.teamB}}
+        Team {{game.teamB +1}}
         <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
       </mdb-badge>
     </li>
@@ -61,11 +61,15 @@
         style="pointer-events: none;"
       >
         <mdb-icon fas icon="user" class="prefix"></mdb-icon>
-        Referee: {{game.referee}}
+        Referee: {{game.referee +1}}
       </mdb-badge>
     </li>
   </ul>
 </div>
+
+
+
+
 
 <div class="text-center">
   <button type="button" mdbBtn color="secondary" mdbWavesEffect (click)="stepBack()">

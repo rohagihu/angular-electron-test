@@ -11,10 +11,14 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { ItemsState } from './store/items.state';
 
+// import { NavModule } from './nav/nav.module';
+import { NavComponent } from './nav/nav.component';
 import { RegistryModule } from './registry/registry.module';
+import { PreliminaryRoundModule } from './preliminary-round/preliminary-round.module';
 import { NgxsTestComponent } from './ngxs-test/ngxs-test.component';
 
 import { DataService } from './core/data.service';
+import { AppRoutingModule } from './app-routing.module';
 
 
 export function appInit(dataService: DataService): any {
@@ -25,7 +29,8 @@ export function appInit(dataService: DataService): any {
 @NgModule({
   declarations: [
     AppComponent,
-    NgxsTestComponent
+    NgxsTestComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -33,9 +38,12 @@ export function appInit(dataService: DataService): any {
     NgxsReduxDevtoolsPluginModule.forRoot(),
     BrowserAnimationsModule,
     MDBBootstrapModule.forRoot(),
+    // NavModule,
     RegistryModule,
+    PreliminaryRoundModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [
     DataService,

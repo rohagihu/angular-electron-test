@@ -71,12 +71,6 @@ export class Part03GameSchedulesComponent implements OnInit {
         teamB: v2,
         referee: referee
       };
-      // teamsA.splice(v1, 1);
-      // teamsB.splice(v2, 1);
-      // console.log(matchesCount)
-
-      // console.log(teamsA, 'teamsA')
-      // console.log(teamsB, 'teamsB')
       if (!timeout) {
         console.log(v1, v2);
         this.schedule.push(obj);
