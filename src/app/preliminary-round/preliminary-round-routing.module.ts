@@ -6,7 +6,7 @@ import { PreliminaryRoundComponent } from './preliminary-round.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'preliminaryround',
     component: PreliminaryRoundComponent
   }
 ];
