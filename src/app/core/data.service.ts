@@ -8,6 +8,7 @@ export class DataService {
   teamsAmount = 15;
   teamsGroups = 3;
   teams = [];
+  // teamGroups = [];
 
   preliminaryRound = {
     mode: 'byPoints',
@@ -20,7 +21,8 @@ export class DataService {
     duration: '12min',
     activeTwoPointsDifference: false,
     colors: ['red', 'cyan lighten-1', 'amber darken-2', 'green darken-3', 'indigo'],
-    schedule: []
+    schedule: [],
+    teamGroups: []
   };
 
 
@@ -28,10 +30,28 @@ export class DataService {
   constructor() { }
 
   init() {
+    let arr = [
+'Schrecksekunde',
+'Schreckminute',
+'Auszeit Storkow',
+'ASV Senden',
+'BSG Lexid',
+'SV Elstertrebnitz',
+'SV Hohenmölsen',
+'Röthaer SV',
+'Chamäleons',
+'Sechser Pack',
+'Skihasen',
+'Mocca-Edel',
+'FahrschulTeam Pfaff',
+'SF Neukieritzsch',
+'VSG Leipzig 2000'
+    ]
     for (let i = 0; i < this.teamsAmount; i++) {
       this.teams.push({
         id: i,
-        name: 'Team ' + String.fromCharCode(65 + i) + ' (' + String.fromCodePoint(0x1F604 + i) + ')'
+        name: arr[i]
+        // name: 'Team ' + String.fromCharCode(65 + i) + ' (' + String.fromCodePoint(0x1F604 + i) + ')'
       })
     }
   }

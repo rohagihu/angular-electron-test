@@ -1,1 +1,99 @@
-<p>schedule works!</p>
+<div class="d-flex px-3 my-3">
+  <div
+    class="flex-fill px-4"
+    style="width: 33%"
+    *ngFor="let group of games; let iGroup = index"
+  >
+    <h4>Gruppe {{group.name}}</h4>
+    <ul class="list-group list-group-flush text-dark">
+      <li
+        class="list-group-item py-1 px-1 d-flex align-items-center"
+        *ngFor="let game of group.schedule; let i = index"
+        (click)="openScoreModal(game, iGroup)"
+      >
+        <div class="mr-3" style="margin-left: 10px;">
+          {{i+1 | number:'2.0'}}
+        </div>
+
+        <div class="flex-grow-1">
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[game.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[game.teamA].team.name}}
+          </mdb-badge>
+          -
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[game.teamB]">
+            {{this.preliminaryRound.teamGroups[iGroup].teams[game.teamB].team.name}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+          |
+          <mdb-badge class="schedule-team-pill" style="margin-left: auto;" pill="true" [color]="preliminaryRound.colors[game.referee]">
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[game.referee].team.name}}
+          </mdb-badge>
+        </div>
+
+        <div style="margin-left: auto; margin-right: 10px;">
+          <div
+            *ngFor="let points of game.game"
+            class="text-right"
+          >
+              <small>{{points.pointsA}}:{{points.pointsB}}</small>
+            </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+<!-- MODAL -->
+<div mdbModal #scoringModal="mdbModal" (close)="onClose($event)" class="modal fade left text-dark" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Punkte eintragen</h4>
+      </div>
+      <div
+        class="modal-body mx-3 text-center"
+        *ngIf="selectedMatch !== null"
+      >
+
+        <div class="flex-grow-1">
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[selectedMatch.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.teamA].team.name}}
+          </mdb-badge>
+          -
+          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[selectedMatch.teamB]">
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.teamB].team.name}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+          |
+          <mdb-badge class="schedule-team-pill" style="margin-left: auto;" pill="true" [color]="preliminaryRound.colors[selectedMatch.referee]">
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            {{this.preliminaryRound.teamGroups[iGroup].teams[selectedMatch.referee].team.name}}
+          </mdb-badge>
+        </div>
+
+
+        <div class="form-row mb-2 mt-2" *ngFor="let game of selectedMatch.game" >
+          <div class="col">
+            <!-- First name -->
+            <input type="text" [(ngModel)]="game.pointsA" id="defaultRegisterFormFirstName" class="form-control" placeholder="">
+          </div> :
+          <div class="col">
+            <!-- Last name -->
+            <input type="text" [(ngModel)]="game.pointsB" id="defaultRegisterFormLastName" class="form-control" placeholder="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

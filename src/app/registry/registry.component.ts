@@ -9,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class RegistryComponent implements OnInit {
 
   registrySteps = {
-    part1: true,
+    part1: false,
     part2: false,
-    part3: false,
+    part3: true,
     part4: false
   };
 

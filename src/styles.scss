@@ -10,3 +10,12 @@ body {
   background: $indigo-base;
   color: $white;
 }
+
+
+.schedule-team-pill {
+  overflow: hidden;
+  max-width: 27%;
+  width: 27%;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}

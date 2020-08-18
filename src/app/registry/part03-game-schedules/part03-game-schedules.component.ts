@@ -69,7 +69,17 @@ export class Part03GameSchedulesComponent implements OnInit {
       const obj = {
         teamA: v1,
         teamB: v2,
-        referee: referee
+        'referee': referee,
+        game: [
+          {
+            pointsA: 0,
+            pointsB: 0,
+          },
+          {
+            pointsA: 0,
+            pointsB: 0,
+          }
+        ]
       };
       if (!timeout) {
         console.log(v1, v2);
