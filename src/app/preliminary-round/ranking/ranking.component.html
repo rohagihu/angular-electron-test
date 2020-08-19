@@ -1,1 +1,26 @@
-<p>ranking works!</p>
+<div class="d-flex px-3 my-3">
+  <div
+    class="flex-fill px-4"
+    style="width: 33%"
+    *ngFor="let group of preliminaryRound.teamGroups; let iGroup = index"
+  >
+    <ul class="list-group list-group-flush text-dark d-table">
+      <li
+        class="list-group-item py-1 d-table-row"
+        *ngFor="let team of group.teams; let i = index"
+      >
+        <div class="d-table-cell pl-2">
+          <mdb-badge pill="true" [color]="preliminaryRound.colors[i]">{{group.name+(i+1)}}</mdb-badge> <span class="ml-2">{{team.team.name}}</span>
+        </div>
+        <div class="d-table-cell pl-3">
+          <span class="">0:0</span>
+        </div>
+        <div class="d-table-cell pl-3 pr-2">
+          <span class="font-weight-bold">0:0</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+{{test}}

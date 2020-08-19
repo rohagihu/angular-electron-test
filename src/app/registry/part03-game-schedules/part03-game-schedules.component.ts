@@ -79,7 +79,9 @@ export class Part03GameSchedulesComponent implements OnInit {
             pointsA: 0,
             pointsB: 0,
           }
-        ]
+        ],
+        bigPointsA: 0,
+        bigPointsB: 0
       };
       if (!timeout) {
         console.log(v1, v2);

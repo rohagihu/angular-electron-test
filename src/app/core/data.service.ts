@@ -22,7 +22,8 @@ export class DataService {
     activeTwoPointsDifference: false,
     colors: ['red', 'cyan lighten-1', 'amber darken-2', 'green darken-3', 'indigo'],
     schedule: [],
-    teamGroups: []
+    teamGroups: [],
+    games: []
   };
 
 
@@ -46,13 +47,14 @@ export class DataService {
 'FahrschulTeam Pfaff',
 'SF Neukieritzsch',
 'VSG Leipzig 2000'
-    ]
+    ];
+
     for (let i = 0; i < this.teamsAmount; i++) {
       this.teams.push({
         id: i,
         name: arr[i]
         // name: 'Team ' + String.fromCharCode(65 + i) + ' (' + String.fromCodePoint(0x1F604 + i) + ')'
-      })
+      });
     }
   }
 
@@ -74,5 +76,13 @@ export class DataService {
 
   savePreliminarySchedule(schedule) {
     this.preliminaryRound.schedule = schedule;
+  }
+
+  getGames() {
+    return this.preliminaryRound.games;
+  }
+
+  saveGames(games) {
+    this.preliminaryRound.games = games;
   }
 }

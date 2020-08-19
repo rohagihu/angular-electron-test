@@ -11,6 +11,15 @@ body {
   color: $white;
 }
 
+.list-group-item-action:hover {
+  cursor: pointer;
+  background-color: $amber-darken-4;
+  color: #fff;
+}
+
+.schedule-list-element {
+  min-height: 40px;
+}
 
 .schedule-team-pill {
   overflow: hidden;
@@ -19,3 +28,25 @@ body {
   text-overflow: ellipsis;
   vertical-align: middle;
 }
+
+.schedule-points {
+  margin-left: auto;
+  margin-right: 10px;
+  > * {
+    line-height: 1;
+  }
+}
+
+@each $color-block, $color-block-map in $mdb-colors-1 {
+  @each $type, $value in $color-block-map {
+    .custom-bg-#{$color-block}-#{$type} {
+      background-color: rgba($value, 0.2);
+    }
+    @if ($type == 'base') {
+      .custom-bg-#{$color-block} {
+        background-color: rgba($value, 0.7);
+      }
+    }
+  }
+}
+

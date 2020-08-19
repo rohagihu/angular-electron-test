@@ -4,24 +4,27 @@
     style="width: 33%"
     *ngFor="let group of games; let iGroup = index"
   >
-    <h4>Gruppe {{group.name}}</h4>
-    <ul class="list-group list-group-flush text-dark">
+    <ul class="list-group list-group-flush text-dark bg-white">
       <li
-        class="list-group-item py-1 px-1 d-flex align-items-center"
+        class="list-group-item list-group-item-action py-0 px-1 d-flex align-items-center schedule-list-element"
+        [ngClass]="'custom-bg-' + preliminaryRound.colors[
+          game.bigPointsA > game.bigPointsB ? game.teamA :
+            game.bigPointsB > game.bigPointsA ? game.teamB : 'null']"
         *ngFor="let game of group.schedule; let i = index"
         (click)="openScoreModal(game, iGroup)"
+
       >
         <div class="mr-3" style="margin-left: 10px;">
           {{i+1 | number:'2.0'}}
         </div>
 
         <div class="flex-grow-1">
-          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[game.teamA]">
+          <mdb-badge class="schedule-team-pill text-left" pill="true" [color]="preliminaryRound.colors[game.teamA]">
             <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
             {{this.preliminaryRound.teamGroups[iGroup].teams[game.teamA].team.name}}
           </mdb-badge>
           -
-          <mdb-badge class="schedule-team-pill" pill="true" [color]="preliminaryRound.colors[game.teamB]">
+          <mdb-badge class="schedule-team-pill text-right" pill="true" [color]="preliminaryRound.colors[game.teamB]">
             {{this.preliminaryRound.teamGroups[iGroup].teams[game.teamB].team.name}}
             <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
           </mdb-badge>
@@ -32,13 +35,16 @@
           </mdb-badge>
         </div>
 
-        <div style="margin-left: auto; margin-right: 10px;">
+        <div class="text-right schedule-points">
           <div
-            *ngFor="let points of game.game"
-            class="text-right"
+            *ngFor="let points of game.game, let i = index"
+            [class]="{'d-none': points.pointsA === 0 && points.pointsB === 0}"
           >
-              <small>{{points.pointsA}}:{{points.pointsB}}</small>
-            </div>
+            <small>{{points.pointsA | number:'2.0'}}:{{points.pointsB | number:'2.0'}}</small>
+          </div>
+          <div class="border border-dark bg-light text-dark text-center" [class]="{'invisible': game.bigPointsA === 0 && game.bigPointsB === 0}">
+              <small class="font-weight-bold">{{game.bigPointsA + ':' + game.bigPointsB}}</small>
+          </div>
         </div>
       </li>
     </ul>
@@ -84,11 +90,11 @@
         <div class="form-row mb-2 mt-2" *ngFor="let game of selectedMatch.game" >
           <div class="col">
             <!-- First name -->
-            <input type="text" [(ngModel)]="game.pointsA" id="defaultRegisterFormFirstName" class="form-control" placeholder="">
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsA" id="defaultRegisterFormFirstName" class="form-control" placeholder="">
           </div> :
           <div class="col">
             <!-- Last name -->
-            <input type="text" [(ngModel)]="game.pointsB" id="defaultRegisterFormLastName" class="form-control" placeholder="">
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsB" id="defaultRegisterFormLastName" class="form-control" placeholder="">
           </div>
         </div>
 
