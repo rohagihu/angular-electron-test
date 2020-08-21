@@ -2,25 +2,27 @@
   <div
     class="flex-fill px-4"
     style="width: 33%"
-    *ngFor="let group of preliminaryRound.teamGroups; let iGroup = index"
+    *ngFor="let group of ranking; let iGroup = index"
   >
-    <ul class="list-group list-group-flush text-dark d-table">
+    <ul
+      class="list-group list-group-flush text-dark d-table"
+    >
       <li
         class="list-group-item py-1 d-table-row"
         *ngFor="let team of group.teams; let i = index"
       >
         <div class="d-table-cell pl-2">
-          <mdb-badge pill="true" [color]="preliminaryRound.colors[i]">{{group.name+(i+1)}}</mdb-badge> <span class="ml-2">{{team.team.name}}</span>
+          <mdb-badge pill="true" [color]="preliminaryRound.colors[team.teamID]">{{group.group+(team.teamID+1)}}</mdb-badge> <span class="ml-2">{{team.teamName}}</span>
         </div>
         <div class="d-table-cell pl-3">
-          <span class="">0:0</span>
+          <span class="">{{team.smallPointsWon}}:{{team.smallPointsLost}}</span>
         </div>
         <div class="d-table-cell pl-3 pr-2">
-          <span class="font-weight-bold">0:0</span>
+          <span class="font-weight-bold">{{team.bigPointsWon}}:{{team.bigPointsLost}}</span>
         </div>
       </li>
     </ul>
   </div>
 </div>
 
-{{test}}
+<!-- {{test}} -->

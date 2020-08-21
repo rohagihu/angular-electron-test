@@ -35,23 +35,32 @@ export class Part04SummaryComponent implements OnInit {
 
 
   setTeams() {
+    let c = 0;
     for (let i = 0; i <= 4; i++) {
       const obj = {
         team: this.teams[i]
       };
+      obj.team.id = c;
       this.groupA.push(obj);
+      c++;
     }
+    c = 0;
     for (let i = 5; i <= 9; i++) {
       const obj = {
         team: this.teams[i]
       };
+      obj.team.id = c;
       this.groupB.push(obj);
+      c++;
     }
+    c = 0;
     for (let i = 10; i <= 14; i++) {
       const obj = {
         team: this.teams[i]
       };
+      obj.team.id = c;
       this.groupC.push(obj);
+      c++;
     }
 
     this.preliminaryRound.teamGroups.push(

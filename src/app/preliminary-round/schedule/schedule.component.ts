@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DataService } from '../../core/data.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { DataService } from '../../core/data.service';
 })
 export class ScheduleComponent implements OnInit {
 
+  @Output() calcRanking = new EventEmitter<null>();
+  Viewch
   @ViewChild('scoringModal', {static: true}) public scoringModal;
   preliminaryRound: any = {};
 
@@ -114,6 +116,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedMatch = null;
     this.iGroup = null;
     this.dataService.saveGames(this.games);
+    this.calcRanking.emit();
   }
 
 }
