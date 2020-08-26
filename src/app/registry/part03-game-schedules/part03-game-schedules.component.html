@@ -87,6 +87,11 @@
 </div>
 
 
+<div class="text-center mt-3">
+  <button type="button" mdbBtn color="success" mdbWavesEffect (click)="saveToDB()">Als Vorlage speichern</button>
+</div>
+
+
 
 
 
@@ -153,4 +158,9 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div *ngFor="let item of testData">
+  {{item.name}}
 </div>

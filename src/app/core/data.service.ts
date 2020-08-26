@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +31,7 @@ export class DataService {
 
 
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   init() {
     let arr = [
@@ -84,5 +87,29 @@ export class DataService {
 
   saveGames(games) {
     this.preliminaryRound.games = games;
+  }
+
+  getDB() {
+    let val;
+    this.http.get('http://localhost:3000/select').subscribe(data => val = data);
+    return val;
+    // this.http.get('http://localhost:3000/select').subscribe(data => console.log('data', data));
+    // return this.http.get('http://localhost:3000/select');
+  }
+  saveDB() {
+    console.log('post');
+    // this.http.post<any>('http://localhost:3000/insert', JSON.stringify({ title: 'Angular POST Request Example'}))
+    this.http.post<any>('http://localhost:3000/insert', {"title": "blatest"})
+    .pipe(
+      catchError(val => {
+        of(`I caught: ${val}`);
+        return throwError(val);
+      })
+    )
+    .subscribe(
+        res => console.log('HTTP response', res),
+        err => console.log('HTTP Error', err),
+        () => console.log('HTTP request completed.')
+    );
   }
 }

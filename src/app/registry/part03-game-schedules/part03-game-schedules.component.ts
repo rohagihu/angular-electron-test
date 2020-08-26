@@ -1,5 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../core/data.service';
+import { catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-part03-game-schedules',
@@ -19,11 +22,13 @@ export class Part03GameSchedulesComponent implements OnInit {
   schedule = [];
   shown = true;
   refereeModalSelected: number = null;
+  testData: [] = [];
   // c = 0;
   // testArr.slice(0,-1).forEach((el,i) => c = c + (i+1));
 
   constructor(
     private dataService: DataService,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +38,9 @@ export class Part03GameSchedulesComponent implements OnInit {
     } else {
       this.schedule = this.preliminaryRound.schedule;
     }
+    this.http.get<[]>('http://localhost:3000/select').subscribe((data: []) => this.testData = data);
+    // this.testData = this.dataService.getDB();
+    console.log(this.testData)
   }
 
   shuffle() {
@@ -160,6 +168,26 @@ export class Part03GameSchedulesComponent implements OnInit {
     this.shown = false
     setTimeout(() => this.shown = true, 1)
     this.refereeModal.hide();
+  }
+
+  saveToDB() {
+    let data = JSON.stringify(this.schedule);
+
+    // console.log(data)
+    this.http.post<any>('http://localhost:3000/savepreliminaryschedule', {"data": data})
+    // this.http.post<any>('http://localhost:3000/savepreliminaryschedule', {"data": '{"data":[{"teamA":3,"teamB":1,"referee":2,"game":[{"pointsA":0,"pointsB":0},{"pointsA":0,"pointsB":0}],"bigPointsA":0,"bigPointsB":0}]}'})
+    .pipe(
+      catchError(val => {
+        of(`I caught: ${val}`);
+        return throwError(val);
+      })
+    )
+    .subscribe(
+        res => console.log('HTTP response', res),
+        err => console.log('HTTP Error', err),
+        () => console.log('HTTP request completed.')
+    );
+    console.log('saved')
   }
 
   stepBack() {

@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron')
 const url = require("url");
 const path = require("path");
+const db = require('./db.js');
 
 let mainWindow
 
@@ -27,6 +28,8 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+db();
 
 app.on('ready', createWindow)
 

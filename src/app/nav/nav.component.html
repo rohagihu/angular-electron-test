@@ -10,12 +10,18 @@
     <links>
 
         <!-- Links -->
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto w-100">
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link waves-light" mdbWavesEffect routerLink="/registry">Einstellungen</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link waves-light" mdbWavesEffect routerLink="/preliminaryround">Vorrunde</a>
+            </li>
+            <li class="nav-item" style="margin-left: auto;" (click)="saveDB()">
+                <a class="nav-link waves-light" mdbWavesEffect>Save</a>
+            </li>
+            <li class="nav-item" (click)="getDB()">
+                <a class="nav-link waves-light" mdbWavesEffect>Get</a>
             </li>
         </ul>
         <!-- Links -->
