@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../core/data.service';
 import { catchError } from 'rxjs/operators';
@@ -22,13 +23,15 @@ export class Part03GameSchedulesComponent implements OnInit {
   schedule = [];
   shown = true;
   refereeModalSelected: number = null;
-  testData: [] = [];
+  savedSchedules: any = [];
+  selectedSchedule: any = [];
   // c = 0;
   // testArr.slice(0,-1).forEach((el,i) => c = c + (i+1));
 
   constructor(
     private dataService: DataService,
     private http: HttpClient,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
@@ -38,9 +41,9 @@ export class Part03GameSchedulesComponent implements OnInit {
     } else {
       this.schedule = this.preliminaryRound.schedule;
     }
-    this.http.get<[]>('http://localhost:3000/select').subscribe((data: []) => this.testData = data);
+    // this.http.get<[]>('http://localhost:3000/select').subscribe((data: []) => this.testData = data);
+    this.getAllSavedSchedules();
     // this.testData = this.dataService.getDB();
-    console.log(this.testData)
   }
 
   shuffle() {
@@ -185,9 +188,32 @@ export class Part03GameSchedulesComponent implements OnInit {
     .subscribe(
         res => console.log('HTTP response', res),
         err => console.log('HTTP Error', err),
-        () => console.log('HTTP request completed.')
+        () => {
+          this.getAllSavedSchedules();
+          console.log('HTTP request completed.')
+        }
     );
     console.log('saved')
+  }
+
+  getAllSavedSchedules() {
+    this.http.get('http://localhost:3000/getAllSavedPreliminarySchedules').subscribe(data => this.savedSchedules = data);
+  }
+
+  selectSavedSchedule(id) {
+    this.http.get('http://localhost:3000/getPreliminarySchedule', {params: {'id': id}}).subscribe((data: any) => {
+      this.selectedSchedule = JSON.parse(data.data);
+      setTimeout(() => {
+        this.viewportScroller.scrollToAnchor('selectedSavedSchedule');
+      }, 100)
+      // console.log(JSON.parse(data.data));
+    });
+  }
+
+  confirmSavedSchedule() {
+    this.schedule = this.selectedSchedule;
+    this.dataService.savePreliminarySchedule(this.schedule);
+    this.selectedSchedule = [];
   }
 
   stepBack() {
