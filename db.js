@@ -22,7 +22,7 @@ module.exports = function() {
   //  ));
    app.options('*', cors())
 
-  let db = new sqlite3.Database('./src/assets/data/data.db', (err) => {
+  let db = new sqlite3.Database('data.db', (err) => {
     if (err) {
       return console.error(err.message);
     }
