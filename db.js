@@ -22,7 +22,6 @@ module.exports = function() {
   //  ));
    app.options('*', cors())
 
-  // open database in memory
   let db = new sqlite3.Database('./src/assets/data/data.db', (err) => {
     if (err) {
       return console.error(err.message);
@@ -31,7 +30,7 @@ module.exports = function() {
   });
 
   db.run('CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);')
-  db.run('CREATE TABLE IF NOT EXISTS `preliminary-schedule` (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT);')
+  db.run('CREATE TABLE IF NOT EXISTS `preliminary-schedule` (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT, timestamp INTEGER DEFAULT CURRENT_TIMESTAMP);')
 
   app.get('/', (req, res) => {
     // res.send('Hello World!')
@@ -41,15 +40,25 @@ module.exports = function() {
 
 
   router.get('/getAllSavedPreliminarySchedules', cors(), (req, res) => {
-    db.all('SELECT id FROM `preliminary-schedule`;', (err, rows) => {
+    // db.all('SELECT id, date(strftime(\'%s\', timestamp), \'unixepoch\', \'localtime\') as timestamp FROM `preliminary-schedule`;', (err, rows) => {
+    db.all('SELECT id, strftime(\'%d.%m.%Y %H:%M:%S\',strftime(\'%s\', timestamp), \'unixepoch\', \'localtime\') as timestamp FROM `preliminary-schedule`;', (err, rows) => {
       res.json(rows)
       console.log('1', rows)
     });
   })
 
-  router.post('/insert', cors(), (req, res) => {
-    db.run('INSERT INTO test (name) VALUES(json('+req.body.title+'));');
-    res.json({"success": "true"});
+
+  router.get('/getPreliminarySchedule', cors(), (req, res) => {
+    // db.all('SELECT id, date(strftime(\'%s\', timestamp), \'unixepoch\', \'localtime\') as timestamp FROM `preliminary-schedule`;', (err, rows) => {
+    let stmt = db.prepare('SELECT `data` FROM `preliminary-schedule` WHERE `id` = ?')
+    stmt.get(req.query.id, (err, row) => {
+      // console.log(row)
+      res.json(row)
+    })
+    // db.all('SELECT `data` FROM `preliminary-schedule` WHERE `id` = \'1\';', (err, rows) => {
+    //   res.json(rows)
+    //   console.log('1', rows)
+    // });
   })
 
   router.post('/savepreliminaryschedule', cors(), (req, res) => {
@@ -64,6 +73,21 @@ module.exports = function() {
     // db.run('INSERT INTO `preliminary-schedule` (data) VALUES("'+req.body.data+'");');
   })
 
+
+
+
+
+
+/**
+ * test insert
+ */
+  router.post('/insert', cors(), (req, res) => {
+    db.run('INSERT INTO test (name) VALUES(json('+req.body.title+'));');
+    res.json({"success": "true"});
+  })
+/**
+ * test select
+ */
   router.get('/select', cors(), (req, res) => {
     // res.send('Hello World!')
     db.all('SELECT * FROM test;', (err, rows) => {

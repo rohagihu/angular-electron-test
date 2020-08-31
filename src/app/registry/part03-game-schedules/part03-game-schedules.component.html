@@ -93,9 +93,61 @@
 
 
 
+<!-- Vorlagen Liste -->
+<h2 class="text-center mt-5 h4">Gespeicherte Vorlage laden</h2>
+<div class="list-group list-group-flush text-dark container mb-5">
+  <a
+    class="list-group-item list-group-item-action"
+    *ngFor="let item of savedSchedules"
+    (click)="selectSavedSchedule(item.id)"
+  >
+    {{item.id}} {{item.timestamp}}
+  </a>
+</div>
 
+<!-- Ausgewählte Vorlage Detailansicht -->
+<ng-container *ngIf="selectedSchedule.length > 0">
+  <h2 id="selectedSavedSchedule" class="text-center mt-4">Vorlage</h2>
+  <div class="d-flex justify-content-center">
+    <ul class="list-group list-group-flush text-dark p-3 text-center">
+      <li
+        class="list-group-item d-flex"
+        *ngFor="let game of selectedSchedule; let i = index"
+      >
+        <div class="mr-3">
+          {{i+1 | number:'2.0'}}
+        </div>
 
+        <div>
+          <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamA]">
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+            Team {{game.teamA +1}}
+          </mdb-badge> -
+          <mdb-badge style="pointer-events: none;" pill="true" [color]="preliminaryRound.colors[game.teamB]">
+            Team {{game.teamB +1}}
+            <mdb-icon fas icon="user-friends" class="prefix"></mdb-icon>
+          </mdb-badge>
+        </div>
 
+        <div class="ml-4">|</div>
+
+        <div class="ml-4">
+          <mdb-badge
+            pill="true"
+            [color]="preliminaryRound.colors[game.referee]"
+            style="pointer-events: none;"
+          >
+            <mdb-icon fas icon="user" class="prefix"></mdb-icon>
+            Referee: {{game.referee +1}}
+          </mdb-badge>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="text-center mt-3 mb-5">
+    <button type="button" mdbBtn color="success" mdbWavesEffect (click)="confirmSavedSchedule()">Vorlage übernehmen</button>
+  </div>
+</ng-container>
 
 <!-- MODAL -->
 <div mdbModal #refereeModal="mdbModal" class="modal fade left text-dark" id="frameModalTop" tabindex="-1" role="dialog"
@@ -158,9 +210,4 @@
       </div>
     </div>
   </div>
-</div>
-
-
-<div *ngFor="let item of testData">
-  {{item.name}}
 </div>
