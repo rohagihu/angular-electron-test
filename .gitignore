@@ -47,3 +47,5 @@ Thumbs.db
 
 /electron-test-win32-x64
 /electron-test-darwin-x64
+
+/src/assets/data/data.db
