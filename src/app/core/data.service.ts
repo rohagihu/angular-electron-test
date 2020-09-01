@@ -11,7 +11,9 @@ export class DataService {
   teamsAmount = 15;
   teamsGroups = 3;
   teams = [];
-  // teamGroups = [];
+
+  preliminaryRoundActive = true;
+  placementRoundActive = false;
 
   preliminaryRound = {
     mode: 'byPoints',
@@ -87,6 +89,18 @@ export class DataService {
 
   saveGames(games) {
     this.preliminaryRound.games = games;
+  }
+
+  getProgress() {
+    return {
+      'placementRoundActive': this.placementRoundActive,
+      'preliminaryRoundActive': this.preliminaryRoundActive,
+    }
+  }
+
+  startPlacementRound() {
+    this.placementRoundActive = true;
+    this.preliminaryRoundActive = false;
   }
 
   getDB() {

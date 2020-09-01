@@ -6,6 +6,9 @@ const app = express()
 const bodyParser = require("body-parser");
 const port = 3000
 
+//  Eventuell umstellen auf LowDB
+//  https://github.com/typicode/lowdb
+
 module.exports = function() {
 
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,7 +25,8 @@ module.exports = function() {
   //  ));
    app.options('*', cors())
 
-  let db = new sqlite3.Database('data.db', (err) => {
+  // let db = new sqlite3.Database('./src/assets/data/data.db', (err) => {
+  let db = new sqlite3.Database('./data.db', (err) => {
     if (err) {
       return console.error(err.message);
     }

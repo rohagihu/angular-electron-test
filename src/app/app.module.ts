@@ -15,6 +15,7 @@ import { ItemsState } from './store/items.state';
 import { NavComponent } from './nav/nav.component';
 import { RegistryModule } from './registry/registry.module';
 import { PreliminaryRoundModule } from './preliminary-round/preliminary-round.module';
+import { PlacementRoundModule } from './placement-round/placement-round.module';
 import { NgxsTestComponent } from './ngxs-test/ngxs-test.component';
 
 import { DataService } from './core/data.service';
@@ -41,6 +42,7 @@ export function appInit(dataService: DataService): any {
     // NavModule,
     RegistryModule,
     PreliminaryRoundModule,
+    PlacementRoundModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule

@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./preliminary-round/preliminary-round.module').then(m => m.PreliminaryRoundModule)
   },
   {
+    path: 'placementround',
+    loadChildren: () => import('./placement-round/placement-round.module').then(m => m.PlacementRoundModule)
+  },
+  {
     path: '**',
     redirectTo: 'registry'
   },
