@@ -9,7 +9,6 @@ import { DataService } from '../../core/data.service';
 export class ScheduleComponent implements OnInit {
 
   @Output() calcRanking = new EventEmitter<null>();
-  Viewch
   @ViewChild('scoringModal', {static: true}) public scoringModal;
   preliminaryRound: any = {};
 
@@ -63,7 +62,7 @@ export class ScheduleComponent implements OnInit {
     this.dataService.saveGames(this.games);
 
     console.log(this.preliminaryRound);
-    console.log(this.games);
+    console.log(this.games, 'games');
   }
 
   gameCalcPoints(game) {

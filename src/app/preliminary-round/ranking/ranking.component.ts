@@ -1,19 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../core/data.service';
+import { IRankingGroup, IRankingTeam } from '../../shared/interface'
 
-interface IRankingTeam {
-  teamID: number;
-  teamName: string;
-  bigPointsWon: number;
-  bigPointsLost: number;
-  smallPointsWon: number;
-  smallPointsLost: number;
-};
-
-interface IRankingGroup {
-  group: string;
-  teams: IRankingTeam[];
-}
 
 @Component({
   selector: 'app-ranking',
@@ -30,7 +18,9 @@ export class RankingComponent implements OnInit {
 
   ranking: IRankingGroup[] = [];
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private dataService: DataService,
+  ) { }
 
   ngOnInit(): void {
     this.games = this.dataService.getGames();
@@ -53,7 +43,9 @@ export class RankingComponent implements OnInit {
       })
     })
 
+    this.calc()
     console.log(this.ranking)
+
   }
 
   calc() {
@@ -120,6 +112,7 @@ export class RankingComponent implements OnInit {
       })
 
     })
+    this.dataService.savePreliminaryRanking(this.ranking);
     console.log(this.ranking)
     console.log('calc finished')
   }

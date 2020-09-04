@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../core/data.service';
 
 @Component({
   selector: 'app-placement-round',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlacementRoundComponent implements OnInit {
 
-  constructor() { }
+  placementRound: any = {};
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+    this.placementRound = this.dataService.getPlacementRound();
+    if (this.placementRound.schedule.length === 0) {
+      this.dataService.initPlacementRound();
+    }
+    console.log(this.placementRound)
   }
 
 }
