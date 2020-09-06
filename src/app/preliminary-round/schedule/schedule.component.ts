@@ -17,6 +17,8 @@ export class ScheduleComponent implements OnInit {
   selectedMatch = null;
   iGroup = null;
 
+  modalData: any = null;
+
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
@@ -87,33 +89,29 @@ export class ScheduleComponent implements OnInit {
   }
 
   openScoreModal(item, iGroup) {
-    this.selectedMatch = item;
-    this.iGroup = iGroup;
-    this.scoringModal.show();
+    // this.selectedMatch = item;
+    // this.iGroup = iGroup;
+    // this.scoringModal.show();
+    let teamAName = this.preliminaryRound.teamGroups[iGroup].teams[item.teamA].team.name
+    let teamBName = this.preliminaryRound.teamGroups[iGroup].teams[item.teamB].team.name
+    let refereeName = this.preliminaryRound.teamGroups[iGroup].teams[item.referee].team.name
+    this.modalData = {
+      selectedMatch: item,
+      iGroup: iGroup,
+      colors: this.preliminaryRound.colors,
+      teamAName: teamAName,
+      teamBName: teamBName,
+      refereeName: refereeName
+    }
+    this.scoringModal.openModal(item, iGroup);
     console.log(item);
   }
 
-  onClose(event) {
-    let bigA = 0;
-    let bigB = 0;
-    this.selectedMatch.game.filter(el => el.pointsA !== 0 || el.pointsB !== 0).forEach(el => {
-      if (el.pointsA > el.pointsB) {
-        bigA++;
-        bigA++;
-      }
-      else if (el.pointsB > el.pointsA) {
-        bigB++;
-        bigB++;
-      }
-      else {
-        bigA++;
-        bigB++;
-      }
-    });
-    this.selectedMatch.bigPointsA = bigA;
-    this.selectedMatch.bigPointsB = bigB;
-    this.selectedMatch = null;
-    this.iGroup = null;
+  onClose() {
+
+    this.modalData = null;
+    // this.selectedMatch = null;
+    // this.iGroup = null;
     this.dataService.saveGames(this.games);
     this.calcRanking.emit();
   }

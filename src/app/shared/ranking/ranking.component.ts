@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from '../../core/data.service';
-import { IRankingGroup, IRankingTeam } from '../../shared/interface'
+import { IRankingGroup, IRankingTeam } from '../interface'
 
 
 @Component({
@@ -12,7 +12,11 @@ import { IRankingGroup, IRankingTeam } from '../../shared/interface'
 
 export class RankingComponent implements OnInit {
 
+  @Input() is: string;
+
   preliminaryRound: any = {};
+  placementRound: any = {};
+  init = false;
 
   games: any[] = [];
 
@@ -25,6 +29,7 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     this.games = this.dataService.getGames();
     this.preliminaryRound = this.dataService.getPreliminaryConfig();
+    this.is === 'placement' ? this.placementRound = this.dataService.getPlacementRound() : '';
     this.preliminaryRound.teamGroups.forEach(group => {
       this.ranking.push({
         'group': group.name,
@@ -45,7 +50,7 @@ export class RankingComponent implements OnInit {
 
     this.calc()
     console.log(this.ranking)
-
+    this.init = true;
   }
 
   calc() {

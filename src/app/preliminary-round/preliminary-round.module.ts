@@ -7,10 +7,15 @@ import { SharedModule } from '../shared/shared.module';
 import { PreliminaryRoundComponent } from './preliminary-round.component';
 import { GroupsHeadComponent } from './groups-head/groups-head.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { RankingComponent } from './ranking/ranking.component';
+// import { RankingComponent } from './ranking/ranking.component';
 
 @NgModule({
-  declarations: [PreliminaryRoundComponent, GroupsHeadComponent, ScheduleComponent, RankingComponent],
+  declarations: [
+    PreliminaryRoundComponent,
+    GroupsHeadComponent,
+    ScheduleComponent,
+    // RankingComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,

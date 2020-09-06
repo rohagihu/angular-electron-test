@@ -31,7 +31,7 @@ export function appInit(dataService: DataService): any {
   declarations: [
     AppComponent,
     NgxsTestComponent,
-    NavComponent
+    NavComponent,
   ],
   imports: [
     BrowserModule,

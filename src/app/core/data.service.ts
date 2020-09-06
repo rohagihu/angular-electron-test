@@ -17,7 +17,7 @@ export class DataService {
   // preliminaryRoundActive = true;
   // placementRoundActive = false;
 
-  groupColors = ['red', 'cyan lighten-1', 'amber darken-2', 'green darken-3', 'indigo']
+  groupColors = ['light-blue accent-3', 'deep-orange', 'amber darken-2', 'green darken-3', 'purple accent-5']
 
   preliminaryRound = {
     mode: 'byPoints',
@@ -37,6 +37,7 @@ export class DataService {
   };
 
   placementRound = {
+    init: true,
     schedule: [],
     ranking: <IRankingTeam[]>[],
     colors: this.groupColors,
@@ -124,7 +125,6 @@ export class DataService {
     return arr;
   }
 
-
 // P1 - P3 spielen alle Endrundenspiele nur auf FeldA, FelbB oder FeldC
 // P1 - P3 spielen an Pos 1,3,5
 // P4 u. P5 verteilen ihre Spiele auf die restl. Lücken
@@ -153,14 +153,21 @@ export class DataService {
 
     // Behandlung Vorrundenrankinggruppen 1-3
     const top3FieldDistribution = {
-      'rank1': null,
-      'rank2': null,
-      'rank3': null
+      'rank1': null, // placements 1-3
+      'rank2': null, // placements 4-6
+      'rank3': null //  placements 7-9
     }
-    const matchPos = [0,2,4]; // this is the match position of the first 3 groups-matches
+
+    // this is the match position of the first 3 groups-matches
+    //
+    const matchPos = [
+      [2, 3, 4], // rank 0 -> placements 1-3
+      [1, 2, 3], // rank 1 -> placements 4-6
+      [0, 1, 2]  // rank 2 -> placements 7-9
+    ];
 
     let groupIndex = 0;
-    for (let group in top3FieldDistribution) {
+    for (let group in top3FieldDistribution) { // crawl through all
       let dicedField = null;
 
       while (
@@ -190,7 +197,8 @@ export class DataService {
           bigPointsA: 0,
           bigPointsB: 0,
           fieldName: dicedField,
-          fieldPos: matchPos[i]
+          // fieldPos: matchPos[i]
+          fieldPos: matchPos.find((field, index) => index === groupIndex)[i]
         };
         schedule.push(obj);
       });
@@ -202,38 +210,114 @@ export class DataService {
 
 
     // Behandlung Vorrundenrankinggruppen 4 und 5
-    console.log(schedule)
+    // generating empty slots list
+    const emptySlots = [];
+    gameFields.forEach(gameField => {
+      [0,1,2,3,4].forEach(gamePos => {
+        if (schedule.find(existingMatch => existingMatch.fieldName === gameField && existingMatch.fieldPos === gamePos) === undefined) {
+          const obj: IPlacementGroupScheduleItem = {
+            preliminaryRankingGroup: null,
+            teamA: null,
+            teamB: null,
+            'referee': null,
+            game: [
+              {
+                pointsA: 0,
+                pointsB: 0,
+              },
+              {
+                pointsA: 0,
+                pointsB: 0,
+              }
+            ],
+            bigPointsA: 0,
+            bigPointsB: 0,
+            fieldName: gameField,
+            // fieldPos: matchPos[i]
+            fieldPos: gamePos
+          };
+          emptySlots.push(obj)
+        }
+      })
+    })
+    console.log(emptySlots, 'emptySlots')
+
+    // fill the missing games
+    const leftGames = [
+      {
+        preliminaryRankingGroup: 3,
+        schemeOfGroupsMatches: [...schemeOfGroupsMatches]
+      },
+      {
+        preliminaryRankingGroup: 4,
+        schemeOfGroupsMatches: [...schemeOfGroupsMatches]
+      }
+    ];
 
 
-    // const obj = {
-    //   teamA: v1,
-    //   teamB: v2,
-    //   'referee': referee,
-    //   game: [
-    //     {
-    //       pointsA: 0,
-    //       pointsB: 0,
-    //     },
-    //     {
-    //       pointsA: 0,
-    //       pointsB: 0,
-    //     }
-    //   ],
-    //   bigPointsA: 0,
-    //   bigPointsB: 0
-    // };
+    function setGame(emptyGame, leftGames, randomLeftGameRank) {
+      let dicing = true;
+      let c = 0;
+      while (dicing) {
+        const randomLeftGameMatch = Math.floor(Math.random() * 3)
+        if (
+          !leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch].alreadySet
+        ) {
+            // console.log(leftGames[randomLeftGameRank], 'leftGame')
+            emptyGame.preliminaryRankingGroup = leftGames[randomLeftGameRank].preliminaryRankingGroup;
+            emptyGame.teamA = leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch].teamA;
+            emptyGame.teamB = leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch].teamB;
+            emptyGame.referee = leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch].referee;
+            leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch] = {
+              ...leftGames[randomLeftGameRank].schemeOfGroupsMatches[randomLeftGameMatch],
+              alreadySet: true
+            };
+            dicing = false;
+        }
+        c++;
+        if (c === 100) {
+          dicing = false;
+          console.error('timeout', randomLeftGameRank, leftGames)
+        }
+      }
+    }
 
-    // let obj: IPlacementGroupScheduleItem = {
-    //   preliminaryRankingGroup: number;
-    //   bigPointsA: number;
-    //   bigPointsB: number;
-    //   game: {
-    //     pointsA: number;
-    //     pointsB: number;
-    //   }[];
-    //   teamA: number;
-    //   teamB: number;
-    // }
+
+    let firstOneEmptyGame = null;
+    [0,1,2,3,4].forEach(gameRow => {
+      const emptyGames = emptySlots.filter(slot => slot.fieldPos === gameRow && !slot.preliminaryRankingGroup); // search for empty games in the row
+      switch (emptyGames.length) {
+        case 1: {// only one game is empty in this gameRow
+          let randomLeftGameRank = null;
+          if (firstOneEmptyGame === null) {
+            randomLeftGameRank = Math.floor(Math.random() * 2)
+            firstOneEmptyGame = randomLeftGameRank;
+          } else {
+            randomLeftGameRank = leftGames.findIndex((el, index) => index !== firstOneEmptyGame);
+          }
+          setGame(emptyGames[0], leftGames, randomLeftGameRank);
+          break;
+        }
+        case 2: {// two games are empty in this gameRow
+          const randomLeftGameRank1 = Math.floor(Math.random() * 2)
+          setGame(emptyGames[0], leftGames, randomLeftGameRank1);
+          const randomLeftGameRank2 = leftGames.findIndex((el, index) => index !== randomLeftGameRank1);
+          setGame(emptyGames[1], leftGames, randomLeftGameRank2);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    });
+
+    // merge emptyslots and schedule
+    schedule = [
+      ...schedule,
+      ...emptySlots
+    ]
+    console.log(schedule,'placement schedule')
+    this.placementRound.schedule = schedule
   }
 
 
@@ -263,6 +347,10 @@ export class DataService {
     this.placementRound.ranking = groups
     this.shufflePlacementSchedule();
     console.log(groups, "groups in placementround")
+  }
+
+  startPlacementRound() {
+    this.placementRound.init = false;
   }
 
   // getProgress() {

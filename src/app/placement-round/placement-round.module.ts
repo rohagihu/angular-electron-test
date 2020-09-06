@@ -4,11 +4,15 @@ import { CommonModule } from '@angular/common';
 import { PlacementRoundRoutingModule } from './placement-round-routing.module' //<-- import
 import { SharedModule } from '../shared/shared.module';
 import { PlacementRoundComponent } from './placement-round.component';
+import { InitComponent } from './init/init.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 
 @NgModule({
   declarations: [
-    PlacementRoundComponent
+    PlacementRoundComponent,
+    InitComponent,
+    ScheduleComponent,
   ],
   imports: [
     CommonModule,

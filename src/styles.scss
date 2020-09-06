@@ -11,6 +11,7 @@ body {
   color: $white;
 }
 
+.placementround-schedule-table tbody td:hover,
 .list-group-item-action:hover {
   cursor: pointer;
   background-color: $amber-darken-4;
@@ -35,6 +36,10 @@ body {
   > * {
     line-height: 1;
   }
+}
+
+.w-33 {
+  width: 33.3%;
 }
 
 @each $color-block, $color-block-map in $mdb-colors-1 {

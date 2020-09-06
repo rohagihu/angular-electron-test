@@ -14,10 +14,6 @@ export class PlacementRoundComponent implements OnInit {
 
   ngOnInit(): void {
     this.placementRound = this.dataService.getPlacementRound();
-    if (this.placementRound.schedule.length === 0) {
-      this.dataService.initPlacementRound();
-    }
-    console.log(this.placementRound)
   }
 
 }

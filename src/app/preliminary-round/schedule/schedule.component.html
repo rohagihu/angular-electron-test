@@ -53,10 +53,14 @@
 
 
 
-
+<app-scoring-modal
+  #scoringModal
+  [modalData]="modalData"
+  (onCloseModal)="onClose()"
+></app-scoring-modal>
 
 <!-- MODAL -->
-<div mdbModal #scoringModal="mdbModal" (close)="onClose($event)" class="modal fade left text-dark" tabindex="-1" role="dialog"
+<!-- <div mdbModal #scoringModal="mdbModal" (close)="onClose($event)" class="modal fade left text-dark" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
@@ -89,17 +93,15 @@
 
         <div class="form-row mb-2 mt-2" *ngFor="let game of selectedMatch.game" >
           <div class="col">
-            <!-- First name -->
-            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsA" id="defaultRegisterFormFirstName" class="form-control" placeholder="">
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsA" class="form-control" placeholder="">
           </div> :
           <div class="col">
-            <!-- Last name -->
-            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsB" id="defaultRegisterFormLastName" class="form-control" placeholder="">
+            <input type="number" (click)="$event.target.select()" [(ngModel)]="game.pointsB" class="form-control" placeholder="">
           </div>
         </div>
 
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
