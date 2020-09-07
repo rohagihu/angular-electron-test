@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../../core/data.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { DataService } from '../../core/data.service';
 export class ScheduleComponent implements OnInit {
 
   @ViewChild('scoringModal', {static: true}) public scoringModal;
+  @Output() calcRanking = new EventEmitter<null>();
   @Input() placementRound: any;
   modalData: any = null;
   ranking: any = null;
@@ -46,6 +47,7 @@ export class ScheduleComponent implements OnInit {
   onClose() {
 
     this.modalData = null;
+    this.calcRanking.emit();
     // this.selectedMatch = null;
     // this.iGroup = null;
     // this.dataService.saveGames(this.games);

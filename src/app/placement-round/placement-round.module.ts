@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PlacementRoundComponent } from './placement-round.component';
 import { InitComponent } from './init/init.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { RankingFinalComponent } from './ranking-final/ranking-final.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
     PlacementRoundComponent,
     InitComponent,
     ScheduleComponent,
+    RankingFinalComponent,
   ],
   imports: [
     CommonModule,

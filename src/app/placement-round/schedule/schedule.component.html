@@ -47,7 +47,7 @@
               </mdb-badge>
             </div>
           </div>
-          <div class="float-right schedule-points pl-3">
+          <div class="float-right schedule-points pl-3" *ngIf="!placementRound.init">
             <div
               *ngFor="let points of scheduleRow.game"
               [class]="{'d-none': placementRound.init}"

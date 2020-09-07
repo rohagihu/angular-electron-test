@@ -35,33 +35,33 @@ export class ScheduleComponent implements OnInit {
 
 
     // TEST DATA
-    this.games.forEach(group => {
-      group.schedule.forEach(game => {
-        game.game.forEach(match => {
-          match.pointsA = Math.floor(Math.random() * 15);
-          match.pointsB = Math.floor(Math.random() * 15);
-        });
-        let bigA = 0;
-        let bigB = 0;
-        game.game.filter(el => el.pointsA !== 0 || el.pointsB !== 0).forEach(el => {
-          if (el.pointsA > el.pointsB) {
-            bigA++;
-            bigA++;
-          }
-          else if (el.pointsB > el.pointsA) {
-            bigB++;
-            bigB++;
-          }
-          else {
-            bigA++;
-            bigB++;
-          }
-        });
-        game.bigPointsA = bigA;
-        game.bigPointsB = bigB;
-      });
-    });
-    this.dataService.saveGames(this.games);
+    // this.games.forEach(group => {
+    //   group.schedule.forEach(game => {
+    //     game.game.forEach(match => {
+    //       match.pointsA = Math.floor(Math.random() * 15);
+    //       match.pointsB = Math.floor(Math.random() * 15);
+    //     });
+    //     let bigA = 0;
+    //     let bigB = 0;
+    //     game.game.filter(el => el.pointsA !== 0 || el.pointsB !== 0).forEach(el => {
+    //       if (el.pointsA > el.pointsB) {
+    //         bigA++;
+    //         bigA++;
+    //       }
+    //       else if (el.pointsB > el.pointsA) {
+    //         bigB++;
+    //         bigB++;
+    //       }
+    //       else {
+    //         bigA++;
+    //         bigB++;
+    //       }
+    //     });
+    //     game.bigPointsA = bigA;
+    //     game.bigPointsB = bigB;
+    //   });
+    // });
+    // this.dataService.saveGames(this.games);
 
     console.log(this.preliminaryRound);
     console.log(this.games, 'games');
@@ -89,9 +89,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   openScoreModal(item, iGroup) {
-    // this.selectedMatch = item;
-    // this.iGroup = iGroup;
-    // this.scoringModal.show();
     let teamAName = this.preliminaryRound.teamGroups[iGroup].teams[item.teamA].team.name
     let teamBName = this.preliminaryRound.teamGroups[iGroup].teams[item.teamB].team.name
     let refereeName = this.preliminaryRound.teamGroups[iGroup].teams[item.referee].team.name
@@ -110,8 +107,6 @@ export class ScheduleComponent implements OnInit {
   onClose() {
 
     this.modalData = null;
-    // this.selectedMatch = null;
-    // this.iGroup = null;
     this.dataService.saveGames(this.games);
     this.calcRanking.emit();
   }
