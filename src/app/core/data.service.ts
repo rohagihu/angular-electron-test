@@ -14,10 +14,12 @@ export class DataService {
   teamsGroups = 3;
   teams = [];
 
+  currentGameIndex: number = null;
+
   // preliminaryRoundActive = true;
   // placementRoundActive = false;
 
-  groupColors = ['light-blue accent-3', 'deep-orange', 'amber darken-2', 'green darken-3', 'purple accent-5']
+  groupColors = ['light-blue accent-3', 'deep-orange', 'amber darken-2', 'green darken-3', 'purple accent-5'];
 
   preliminaryRound = {
     mode: 'byPoints',
@@ -41,13 +43,13 @@ export class DataService {
     schedule: [],
     ranking: <IRankingTeam[]>[],
     colors: this.groupColors,
-  }
+  };
 
 
   constructor(private http: HttpClient) { }
 
   init() {
-    let arr = [
+    const arr = [
 'Schrecksekunde',
 'Schreckminute',
 'Auszeit Storkow',
@@ -174,9 +176,9 @@ export class DataService {
         !dicedField ||
         Object.values(top3FieldDistribution).some(el => el === dicedField)
       ) {
-        dicedField = gameFields[Math.floor(Math.random() * 3)]
+        dicedField = gameFields[Math.floor(Math.random() * 3)];
       }
-      top3FieldDistribution[group] = dicedField // set random field for the first 3 group of teams
+      top3FieldDistribution[group] = dicedField; // set random field for the first 3 group of teams
       const tempSchemeOfGroupsMatches = this.shuffleArray([...schemeOfGroupsMatches]); // shuffle the match scheme
       tempSchemeOfGroupsMatches.forEach((match, i) => {
         const obj: IPlacementGroupScheduleItem = {
@@ -284,7 +286,7 @@ export class DataService {
 
 
     let firstOneEmptyGame = null;
-    [0,1,2,3,4].forEach(gameRow => {
+    [0, 1, 2, 3, 4].forEach(gameRow => {
       const emptyGames = emptySlots.filter(slot => slot.fieldPos === gameRow && !slot.preliminaryRankingGroup); // search for empty games in the row
       switch (emptyGames.length) {
         case 1: {// only one game is empty in this gameRow
@@ -365,13 +367,73 @@ export class DataService {
   //   this.preliminaryRoundActive = false;
   // }
 
-  getDB() {
-    let val;
-    this.http.get('http://localhost:3000/select').subscribe(data => val = data);
-    return val;
-    // this.http.get('http://localhost:3000/select').subscribe(data => console.log('data', data));
-    // return this.http.get('http://localhost:3000/select');
+  // getDB() {
+  //   let val;
+  //   this.http.get('http://localhost:3000/select').subscribe(data => val = data);
+  //   return val;
+  // }
+
+  getCurrentGameIndex() {
+    return this.currentGameIndex;
   }
+  saveCurrentGameIndex(id) {
+    this.currentGameIndex = id;
+  }
+
+
+  createGame() {
+    let data = {
+      'teams': this.teams,
+      'preliminaryRound': this.preliminaryRound,
+      'placementRound': this.placementRound
+    };
+    this.http.post<any>('http://localhost:3000/creategame', data)
+    .pipe(
+      catchError(val => {
+        of(`I caught: ${val}`);
+        return throwError(val);
+      })
+    )
+    .subscribe(
+      (res) => {
+        this.currentGameIndex = res.id;
+      }
+    );
+  }
+
+  updategame() {
+    const data = {
+      'teams': this.teams,
+      'preliminaryRound': this.preliminaryRound,
+      'placementRound': this.placementRound
+    };
+    const reqData = {
+      "data": data,
+      "id": this.currentGameIndex
+    }
+    // console.log(this.preliminaryRound.games, 'SAVETHIS')
+    // const currentGameIndex = this.currentGameIndex;
+    this.http.patch<any>('http://localhost:3000/updategame', reqData)
+    .pipe(
+      catchError(val => {
+        of(`I caught: ${val}`);
+        return throwError(val);
+      })
+    )
+    .subscribe(
+        res => console.log('HTTP response', res),
+        err => console.log('HTTP Error', err),
+        () => console.log('HTTP request completed.')
+    );
+  }
+
+  loadGame(game) {
+    this.currentGameIndex = game.id;
+    this.teams = game.data.teams;
+    this.preliminaryRound = game.data.preliminaryRound;
+    this.placementRound = game.data.placementRound;
+  }
+
   saveDB() {
     console.log('post');
     // this.http.post<any>('http://localhost:3000/insert', JSON.stringify({ title: 'Angular POST Request Example'}))

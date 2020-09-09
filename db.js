@@ -35,6 +35,7 @@ module.exports = function() {
 
   db.run('CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);')
   db.run('CREATE TABLE IF NOT EXISTS `preliminary-schedule` (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT, timestamp INTEGER DEFAULT CURRENT_TIMESTAMP);')
+  db.run('CREATE TABLE IF NOT EXISTS `saved-games` (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT, timestamp INTEGER DEFAULT CURRENT_TIMESTAMP, `is-final` INTERGER DEFAULT 0);')
 
   app.get('/', (req, res) => {
     // res.send('Hello World!')
@@ -65,6 +66,14 @@ module.exports = function() {
     // });
   })
 
+  router.get('/deletePreliminarySchedule', cors(), (req, res) => {
+    // db.all('SELECT id, date(strftime(\'%s\', timestamp), \'unixepoch\', \'localtime\') as timestamp FROM `preliminary-schedule`;', (err, rows) => {
+    let stmt = db.prepare('DELETE FROM `preliminary-schedule` WHERE `id` = ?')
+    stmt.get(req.query.id, (err, row) => {
+      res.json({"success": "true"});
+    })
+  })
+
   router.post('/savepreliminaryschedule', cors(), (req, res) => {
     db.serialize(function() {
     // console.log(req.body.data)
@@ -78,8 +87,53 @@ module.exports = function() {
   })
 
 
+  router.post('/creategame', cors(), (req, res) => {
+    // db.serialize(function() {
+    // console.log(req.body.data)
+    console.log('Route: creategame')
+    // console.log(req.body)
+    let stmt = db.prepare("INSERT INTO `saved-games` (`data`) VALUES(?);")
+    stmt.run(JSON.stringify(req.body), function(err) {
+      console.log(this.lastID)
+      if (err) {
+        return console.log(err.message);
+      }
+      res.json({"success": true, "id": this.lastID});
+    });
+    stmt.finalize();
+  })
 
 
+  router.patch('/updategame', cors(), (req, res) => {
+    // db.serialize(function() {
+    // console.log(req.body.data)
+    // console.log(req.body)
+    console.log('Route: updategame')
+    let stmt = db.prepare("UPDATE `saved-games` SET `data` = ? WHERE ID = ?;")
+    stmt.run(JSON.stringify(req.body.data), req.body.id, function(err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      res.json({"success": true});
+      console.log(req.body.id)
+    });
+    stmt.finalize();
+  })
+
+  router.get('/getgame', cors(), (req, res) => {
+    console.log('Route: getgame')
+    // db.all('SELECT id, date(strftime(\'%s\', timestamp), \'unixepoch\', \'localtime\') as timestamp FROM `preliminary-schedule`;', (err, rows) => {
+    let stmt = db.prepare('SELECT * FROM `saved-games` WHERE `is-final` = 0;')
+    stmt.all((err, data) => {
+      let resData = data.map(el => {
+        return {
+          ...el,
+          data: JSON.parse(el.data)
+        }
+      });
+      res.json({"success": "true", "data": resData});
+    })
+  })
 
 
 /**
@@ -92,15 +146,15 @@ module.exports = function() {
 /**
  * test select
  */
-  router.get('/select', cors(), (req, res) => {
-    // res.send('Hello World!')
-    db.all('SELECT * FROM test;', (err, rows) => {
-      // res.header("Access-Control-Allow-Origin", "*");
-      res.json(rows)
-      console.log('1', rows)
-    });
-    // res.send('Done SELECT')
-  })
+  // router.get('/select', cors(), (req, res) => {
+  //   // res.send('Hello World!')
+  //   db.all('SELECT * FROM test;', (err, rows) => {
+  //     // res.header("Access-Control-Allow-Origin", "*");
+  //     res.json(rows)
+  //     console.log('1', rows)
+  //   });
+  //   // res.send('Done SELECT')
+  // })
 
   app.listen(port, () => {
     console.log(`Database App listen on http://localhost:${port}`)

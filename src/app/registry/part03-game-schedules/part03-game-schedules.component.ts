@@ -25,6 +25,7 @@ export class Part03GameSchedulesComponent implements OnInit {
   refereeModalSelected: number = null;
   savedSchedules: any = [];
   selectedSchedule: any = [];
+  selectedScheduleID: string = null;
   // c = 0;
   // testArr.slice(0,-1).forEach((el,i) => c = c + (i+1));
 
@@ -174,11 +175,10 @@ export class Part03GameSchedulesComponent implements OnInit {
   }
 
   saveToDB() {
-    let data = JSON.stringify(this.schedule);
+    const data = JSON.stringify(this.schedule);
 
     // console.log(data)
-    this.http.post<any>('http://localhost:3000/savepreliminaryschedule', {"data": data})
-    // this.http.post<any>('http://localhost:3000/savepreliminaryschedule', {"data": '{"data":[{"teamA":3,"teamB":1,"referee":2,"game":[{"pointsA":0,"pointsB":0},{"pointsA":0,"pointsB":0}],"bigPointsA":0,"bigPointsB":0}]}'})
+    this.http.post<any>('http://localhost:3000/savepreliminaryschedule', { "data": data })
     .pipe(
       catchError(val => {
         of(`I caught: ${val}`);
@@ -203,9 +203,10 @@ export class Part03GameSchedulesComponent implements OnInit {
   selectSavedSchedule(id) {
     this.http.get('http://localhost:3000/getPreliminarySchedule', {params: {'id': id}}).subscribe((data: any) => {
       this.selectedSchedule = JSON.parse(data.data);
+      this.selectedScheduleID = id;
       setTimeout(() => {
         this.viewportScroller.scrollToAnchor('selectedSavedSchedule');
-      }, 100)
+      }, 100);
       // console.log(JSON.parse(data.data));
     });
   }
@@ -214,6 +215,16 @@ export class Part03GameSchedulesComponent implements OnInit {
     this.schedule = this.selectedSchedule;
     this.dataService.savePreliminarySchedule(this.schedule);
     this.selectedSchedule = [];
+    this.selectedScheduleID = null;
+  }
+
+  deleteSavedSchedule() {
+    this.http.get('http://localhost:3000/deletePreliminarySchedule', {params: {'id': this.selectedScheduleID}}).subscribe((data: any) => {
+      console.log(data)
+      this.selectedSchedule = [];
+      this.selectedScheduleID = null;
+      this.getAllSavedSchedules();
+    });
   }
 
   stepBack() {

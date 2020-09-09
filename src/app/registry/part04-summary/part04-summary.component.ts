@@ -84,6 +84,7 @@ export class Part04SummaryComponent implements OnInit {
   next() {
     this.setTeams();
     this.dataService.savePreliminaryConfig(this.preliminaryRound);
+    this.dataService.createGame();
     this.router.navigate(['preliminaryround']);
   }
 }

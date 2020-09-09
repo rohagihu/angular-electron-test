@@ -148,6 +148,14 @@
   </div>
   <div class="text-center mt-3 mb-5">
     <button type="button" mdbBtn color="success" mdbWavesEffect (click)="confirmSavedSchedule()">Vorlage übernehmen</button>
+    <button type="button" mdbBtn color="danger" mdbWavesEffect (click)="deleteSavedSchedule()">
+      <mdb-icon fas icon="trash-alt" class="mr-1"></mdb-icon>
+      Vorlage löschen
+    </button>
+    <button type="button" mdbBtn color="grey" mdbWavesEffect (click)="selectedSchedule = []; selectedScheduleID = null;">
+      <mdb-icon fas icon="times-circle" class="mr-1"></mdb-icon>
+      Abbrechen
+    </button>
   </div>
 </ng-container>
 

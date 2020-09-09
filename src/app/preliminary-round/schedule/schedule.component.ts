@@ -23,15 +23,19 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.preliminaryRound = this.dataService.getPreliminaryConfig();
-
-    ['A', 'B', 'C'].forEach(el => {
-      const temp = JSON.stringify(this.preliminaryRound.schedule);
-      this.games.push({
-        name: el,
-        schedule: JSON.parse(temp)
+    console.log(this.preliminaryRound.games, 'AAAAAA')
+    if (this.preliminaryRound.games.length === 0) {
+      ['A', 'B', 'C'].forEach(el => {
+        const temp = JSON.stringify(this.preliminaryRound.schedule);
+        this.games.push({
+          name: el,
+          schedule: JSON.parse(temp)
+        });
       });
-    });
-    this.dataService.saveGames(this.games);
+      this.dataService.saveGames(this.games);
+    } else {
+      this.games = this.preliminaryRound.games;
+    }
 
 
     // TEST DATA

@@ -2,3 +2,30 @@
 <app-part02-rules *ngIf="registrySteps.part2" (done)="next($event)" (undo)="before($event)"></app-part02-rules>
 <app-part03-game-schedules *ngIf="registrySteps.part3" (done)="next($event)" (undo)="before($event)"></app-part03-game-schedules>
 <app-part04-summary *ngIf="registrySteps.part4" (done)="finish($event)" (undo)="before($event)"></app-part04-summary>
+
+<div mdbModal #availableModal="mdbModal" class="modal fade text-dark" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="availableModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group list-group-flush text-dark container">
+          <a
+            class="list-group-item list-group-item-action"
+            *ngFor="let item of availableOpenedGames; let i = index"
+            (click)="selectSavedGame(i)"
+          >
+            {{item.id}} {{item.timestamp}}
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="availableModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save changes</button>
+      </div>
+    </div>
+  </div>
